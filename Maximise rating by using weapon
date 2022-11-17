@@ -1,0 +1,51 @@
+Problem Description
+As we know, War has started between Russia and Ukraine.
+Putin(President of Russia) has an initial power of P, a rating of 0, and a suitcase of weapons where weapon[i]
+is the value of the ith weapon   (weapon[] array and P is given).
+His objective is to maximize his total rating by using each weapon in one of two ways:
+He may utilize the ith weapon in 2 ways -
+1. if his current power is at least weapon[i], losing weapon[i] power and gaining 1 rating.
+2. If he has a higher rating than 0, he can sell weapon[i], gaining weapon[i] power and losing 1 rating.
+Each weapon may be used at most once and in any order.
+Return the maximum possible rating that Putin can achieve after using any number of weapons. He need not use all the weapons.
+
+import java.util.*;
+
+public class Weapons{
+    public static void main(String args[]){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(),P = sc.nextInt();
+        int[] arr = new int[n];
+
+        for(int i=0;i<n;i++)
+        arr[i]=sc.nextInt();
+
+        System.out.println(weapons(n,P,arr));
+    }
+
+    static int weapons(int n,int power,int weapon[]){
+        int rating =0;
+        Arrays.sort(weapon);
+        int left=0;  // use from this end
+        int right =n-1;   // sell from this end
+        while(left <=right){
+                if(power>=weapon[left]){ // if can use, use it
+                    rating++;
+                    power-= weapon[left];
+                    left++;
+                }else{
+                    if(left==right){ // when there is only one weapon , either use it to gain rating or dont sell it because it will decrease rating and there is no need increase power
+                        return rating;
+                    }
+                    else if(rating>=1){ // if can not use, sell it
+                        rating--;
+                        power+= weapon[right];
+                        right--;
+                    }
+                } 
+        }
+        return rating;
+        
+    }
+
+}
